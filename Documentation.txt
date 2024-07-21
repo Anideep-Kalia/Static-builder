@@ -1,0 +1,30 @@
+AIM: This projects make containers on demand in which an application on GitHub is running and these container will export the built project to S3 bucket which will stream this project so the project is static website
+BUILD SERVER
+-> made the docker file and the end run the shell script
+-> made the shell file which will clone the repo and run script.js
+-> Made the script.js => have init function
+. will run the npm i & npm run dev
+. store all the logs 
+. and storing every scipt in s3 bucket except the folders => GPT
+-> Made a bucket on s3 => made it public => add security policy 
+-> Create IAM user granting admin powers => create new access key for this => cli => description: any => got access key and shove it in script.js
+-> made a ECR (private) => view push command
+-> Made a ECS => fargate => Made a target group with ECR image and everything at default
+-> run the image on local machine 
+-> Now testing if the ECS is working => Run new task 
+. compute config : launch type
+. fargate
+. family: {target group made}
+. container overrides => builder-image => key-value{put in env data i.e. GitHub repo url and project_id: p1} || project_id is the actually file/project name in which project is made in s3 and it will be different for different containers
+. create
+
+S3-REVERSE-PROXY
+-> index.js: in this file we have made a reverse proxy which will redirect every call from 
+ => resolvesTo: {copy path from bucket and at the end it will be (p1/index.html)=> change this from where the request is coming}
+-> after making the reverse proxy we will test it by running: a1.localhost:8000/index.html => remember that we first have to try our docker image with project_id a1 then only it will run
+-> now we have a problem that we have to write index.html at end which is handled by the proxy.on('proxyreq',(proxy,req,res)=>
+. so what it will do it will route all the request ending with '/' to index.html
+
+API-SERVER
+-> Now this will automate the generation of the containers 
+
