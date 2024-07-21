@@ -18,8 +18,12 @@ BUILD SERVER
 . family: {target group made}
 . container overrides => builder-image => key-value{put in env data i.e. GitHub repo url and project_id: p1} || project_id is the actually file/project name in which project is made in s3 and it will be different for different containers
 . create
-. Now we will attach the redis server on aiven
-. 
+-> Now we will attach the redis server on aiven
+. inside publisher we will in the serviceURI in plaintext inside aiven redis server
+. now we have made a function publishLog(log) inside which we are publishing the messages taking as params on channel 'logs:${PROJECT_ID}'
+-> now again push the image in ECR by view push commands
+-> now we have made socket.io connection inside api-server
+
 
 S3-REVERSE-PROXY
 -> index.js: in this file we have made a reverse proxy which will redirect every call from 
@@ -35,8 +39,28 @@ API-SERVER
 -> in const command inside networkConfiguration give subnets of clusters and security group of cluster
 -> inside overrides give name of image(take from task definition json)
 -> now to test send a post request like in image
+-> Now streming logs to user
+. made a subscriber like in publisher from build-server index.js
+. io is listening on port 9001
+. now made io.on(connection) with channel 
+. then we have made function initRediSubscribe() which will establish connection between redis and socket.io
+. inside above function we have made a pattern subscribe i.e. all the channels starting with logs: will be considered and from these channel we will find take project_id as channel and message as logs
+-> now to execute go to execution part
+-> now we have modified the code so if the user have slug then he can give slug and can make project on the specific url we have made the changes on line 40
 
 LOGGS
 -> made a server of redis on aiven
 -> all the code for redis and websocket in script.js inside build-server
+
+
+EXECUTION
+-> On postman connect to localhost:9002 and in events turn on the message
+. now in message tab => logs: {projectslug_from_9000/project}
+. write: subscribe(in input field) and send
+
+-> connect to localhost:9000/project
+>inside raw:
+. give "gitURL": "{githhub url}"
+. give "slug": "{write slug if you have"
+. now you will get projectSlug
 
