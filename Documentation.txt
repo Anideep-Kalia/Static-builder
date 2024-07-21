@@ -1,4 +1,5 @@
 AIM: This projects make containers on demand in which an application on GitHub is running and these container will export the built project to S3 bucket which will stream this project so the project is static website
+
 BUILD SERVER
 -> made the docker file and the end run the shell script
 -> made the shell file which will clone the repo and run script.js
@@ -17,6 +18,8 @@ BUILD SERVER
 . family: {target group made}
 . container overrides => builder-image => key-value{put in env data i.e. GitHub repo url and project_id: p1} || project_id is the actually file/project name in which project is made in s3 and it will be different for different containers
 . create
+. Now we will attach the redis server on aiven
+. 
 
 S3-REVERSE-PROXY
 -> index.js: in this file we have made a reverse proxy which will redirect every call from 
@@ -27,4 +30,13 @@ S3-REVERSE-PROXY
 
 API-SERVER
 -> Now this will automate the generation of the containers 
+-> installed aws-sdk/client-ecs:  is a package in the AWS SDK for JavaScript, specifically for Node.js and the browser, which provides a client for interacting with Amazon Elastic Container Service (ECS)
+-> now made a config const in which we have filled cluster arn and task definition arn
+-> in const command inside networkConfiguration give subnets of clusters and security group of cluster
+-> inside overrides give name of image(take from task definition json)
+-> now to test send a post request like in image
+
+LOGGS
+-> made a server of redis on aiven
+-> all the code for redis and websocket in script.js inside build-server
 
