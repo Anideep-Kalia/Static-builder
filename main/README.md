@@ -1,4 +1,4 @@
-# Static-builder
+# Static-builder(A Vercel clone)
 
 ### Setup Guide
 
